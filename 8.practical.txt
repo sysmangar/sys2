@@ -1,0 +1,67 @@
+
+
+
+
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+df = sns.load_dataset("titanic")
+
+
+print("First 5 Rows of Dataset")
+print(df.head())
+
+print("\nDataset Information")
+print(df.info())
+
+print("\nStatistical Summary")
+print(df.describe())
+
+
+print("\nMissing Values")
+print(df.isnull().sum())
+
+
+
+sns.countplot(x='survived', data=df)
+
+plt.title("Survival Count")
+
+plt.xlabel("Survived")
+plt.ylabel("Count")
+
+plt.show()
+
+sns.countplot(x='sex', hue='survived', data=df)
+
+plt.title("Survival by Gender")
+
+plt.xlabel("Gender")
+plt.ylabel("Count")
+
+plt.show()
+
+sns.countplot(x='pclass', hue='survived', data=df)
+
+plt.title("Survival by Passenger Class")
+
+plt.xlabel("Passenger Class")
+plt.ylabel("Count")
+
+plt.show()
+
+
+plt.hist(df['fare'].dropna(), bins=20)
+
+plt.title("Distribution of Fare")
+
+plt.xlabel("Fare")
+plt.ylabel("Frequency")
+
+plt.show()
+print("\nInference:")
+print("1. More passengers died than survived.")
+print("2. Females survived more than males.")
+print("3. First class passengers had higher survival chances.")
+print("4. Most passengers paid lower fares.")

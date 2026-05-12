@@ -1,0 +1,80 @@
+# Import libraries
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+from nltk.stem import PorterStemmer, WordNetLemmatizer
+from nltk import pos_tag
+from sklearn.feature_extraction.text import TfidfVectorizer
+import pandas as pd
+
+# Download required NLTK data
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('averaged_perceptron_tagger')
+nltk.download('wordnet')
+
+# Sample document
+text = """
+Natural Language Processing is a branch of Artificial Intelligence.
+It helps computers understand human language.
+Text analytics is used in machine learning applications.
+"""
+
+print("Original Text:\n")
+print(text)
+
+# ---------------- TOKENIZATION ----------------
+tokens = word_tokenize(text)
+
+print("\nTokenization:\n")
+print(tokens)
+
+# ---------------- POS TAGGING ----------------
+pos = pos_tag(tokens)
+
+print("\nPOS Tagging:\n")
+print(pos)
+
+# ---------------- STOP WORD REMOVAL ----------------
+stop_words = set(stopwords.words('english'))
+
+filtered_words = [word for word in tokens if word.lower() not in stop_words]
+
+print("\nStop Words Removed:\n")
+print(filtered_words)
+
+# ---------------- STEMMING ----------------
+stemmer = PorterStemmer()
+
+stemmed_words = [stemmer.stem(word) for word in filtered_words]
+
+print("\nStemmed Words:\n")
+print(stemmed_words)
+
+# ---------------- LEMMATIZATION ----------------
+lemmatizer = WordNetLemmatizer()
+
+lemmatized_words = [lemmatizer.lemmatize(word) for word in filtered_words]
+
+print("\nLemmatized Words:\n")
+print(lemmatized_words)
+
+# ---------------- TF-IDF ----------------
+documents = [
+    "Natural language processing is important",
+    "Text analytics uses machine learning",
+    "Machine learning helps in NLP"
+]
+
+vectorizer = TfidfVectorizer()
+
+tfidf_matrix = vectorizer.fit_transform(documents)
+
+# Convert to dataframe
+df = pd.DataFrame(
+    tfidf_matrix.toarray(),
+    columns=vectorizer.get_feature_names_out()
+)
+
+print("\nTF-IDF Representation:\n")
+print(df)

@@ -1,0 +1,68 @@
+
+import pandas as pd
+import numpy as np
+
+
+df = pd.read_csv("Iris.csv")
+
+
+df.head()
+
+
+df.info()
+
+
+df.shape
+
+
+df.isnull().sum()
+
+
+df.describe()
+
+
+df.mean(numeric_only=True)
+
+
+df.median(numeric_only=True)
+
+
+df.min(numeric_only=True)
+
+
+df.max(numeric_only=True)
+
+
+df.mode()
+
+
+df.std(numeric_only=True)
+
+
+df.var(numeric_only=True)
+
+
+df.groupby('species').mean(numeric_only=True)
+
+df.quantile([0.25, 0.50, 0.75], numeric_only=True)
+
+
+def stats_summary(data):
+
+    print("Mean")
+    print(data.mean())
+
+    print("Standard Deviation")
+    print(data.std())
+
+    print("25th Percentile")
+    print(data.quantile(0.25))
+
+    print("50th Percentile")
+    print(data.quantile(0.50))
+
+    print("75th Percentile")
+    print(data.quantile(0.75))
+
+
+stats_summary(df['petal_length'])

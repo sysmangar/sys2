@@ -1,0 +1,100 @@
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+df = pd.read_csv("academic_data.csv")
+
+
+df.head(15)
+
+
+df.shape
+
+
+df.isnull().sum()
+
+
+df['DA'].dtype
+
+
+df['DA'] = pd.to_numeric(df['DA'], errors='coerce')
+
+df['DSBDA'] = pd.to_numeric(df['DSBDA'], errors='coerce')
+
+
+df['SPOS'] = df['SPOS'].fillna(df['SPOS'].mean())
+
+df['DSBDA'] = df['DSBDA'].fillna(df['DSBDA'].mean())
+
+df['WT'] = df['WT'].fillna(df['WT'].mean())
+
+df['DA'] = df['DA'].fillna(df['DA'].mean())
+
+
+df['DA'] = df['DA'].astype(float)
+
+
+df.dtypes
+
+
+inconsistent = df[
+    (df['SPOS'] < 25) |
+    (df['SPOS'] > 75)
+]
+
+inconsistent
+
+
+mean_spos = df['SPOS'].mean()
+
+df.loc[
+    (df['SPOS'] < 25) |
+    (df['SPOS'] > 75),
+    'SPOS'
+] = mean_spos
+
+
+Q1 = df['DA'].quantile(0.25)
+
+Q3 = df['DA'].quantile(0.75)
+
+IQR = Q3 - Q1
+
+lower = Q1 - 1.5 * IQR
+
+upper = Q3 + 1.5 * IQR
+
+outliers = df[
+    (df['DA'] < lower) |
+    (df['DA'] > upper)
+]
+
+outliers
+
+
+
+median = df['DA'].median()
+
+df.loc[
+    (df['DA'] < lower) |
+    (df['DA'] > upper),
+    'DA'
+] = median
+
+
+df['DSBDA_log'] = np.log(df['DSBDA'])
+
+
+df.describe()
+
+
+plt.boxplot(df['DA'])
+
+plt.title("Boxplot of DA")
+
+plt.show()
+
+
+df
